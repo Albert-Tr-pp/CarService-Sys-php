@@ -1,0 +1,57 @@
+show databases;
+use database name;
+show tables;
+drop database name;
+
+drop database carservice;
+create database carservice;
+use carservice;
+
+create table Clients (
+ClientID smallint auto_increment not null,
+Firstname varchar(20) not null,
+Lastname varchar(20) not null,
+Phone varchar(13) not null unique,
+Email varchar(20) not null unique,
+County varchar(20) not null,
+City varchar(20) not null,
+Street varchar(20) not null,
+EirCode varchar(7) not null,
+Status char(1) not null,
+primary key(ClientID)
+)engine=InnoDB;
+
+create table Parts (
+PartID smallint auto_increment not null,
+Type varchar(30) not null,
+Compatibility varchar(30) not null,
+Supplier varchar(30) not null,
+Manufacturer varchar(30) not null,
+Quantity smallint not null,
+Price numeric(10,2) not null,
+usedTimes smallint not null,
+Status char(1) not null,
+PRIMARY KEY(PartID)
+)engine=InnoDB;
+
+create table Appointments (
+AppointmentID smallint auto_increment not null,
+ClientID smallint not null,
+App_Date date not null,
+App_Time varchar(5) not null,
+Cost numeric(10,2) not null,
+Status char(1) not null,
+PRIMARY KEY(AppointmentID),
+FOREIGN KEY fk_client(ClientID) REFERENCES Clients(ClientID)
+)engine=InnoDB;
+
+create table PartsUsed (
+AppointmentID smallint not null,
+PartID smallint not null,
+FOREIGN KEY fk_part(PartID) REFERENCES Parts(PartID),
+FOREIGN KEY fk_appointment(AppointmentID) REFERENCES Appointments(AppointmentID)
+)engine=InnoDB;
+
+create table forDeletion (
+conditionItem boolean not null
+)engine=InnoDB;
